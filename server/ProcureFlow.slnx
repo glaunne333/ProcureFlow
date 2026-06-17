@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ProcureFlow.Api/ProcureFlow.Api.csproj" />
+    <Project Path="src/ProcureFlow.Application/ProcureFlow.Application.csproj" />
+    <Project Path="src/ProcureFlow.Domain/ProcureFlow.Domain.csproj" />
+    <Project Path="src/ProcureFlow.Infrastructure/ProcureFlow.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ProcureFlow.Tests/ProcureFlow.Tests.csproj" />
+  </Folder>
+</Solution>

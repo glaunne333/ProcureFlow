@@ -1,0 +1,28 @@
+# Build output
+bin/
+obj/
+dist/
+out/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Angular
+.angular/
+
+# Local config
+.env
+.env.*
+appsettings.Development.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+CLAUDE.md
+AGENTS.md
