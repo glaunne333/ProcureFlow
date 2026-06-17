@@ -1,0 +1,102 @@
+@if (request(); as request) {
+  <section class="hero">
+    <p class="eyebrow">{{ request.status }}</p>
+    <h1>{{ request.requestNo }}</h1>
+    <p class="muted">{{ request.vendor }} requested by {{ request.requestedBy }}.</p>
+  </section>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <section class="section">
+    <div class="metrics">
+      <div class="metric">
+        <strong>{{ request.estimatedTotal | currency }}</strong>
+        <span class="muted">Estimated total</span>
+      </div>
+      <div class="metric">
+        <strong>{{ request.items.length }}</strong>
+        <span class="muted">Line items</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Items</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Qty</th>
+            <th>Unit</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of request.items; track item.description) {
+            <tr>
+              <td>{{ item.description }}</td>
+              <td>{{ item.category }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.unitCost | currency }}</td>
+              <td>{{ item.lineTotal | currency }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Actions</h2>
+    @if (canSubmit(request) || canReview(request) || canOrder(request) || canComplete(request)) {
+      <div class="form">
+        <label>
+          Remarks
+          <textarea name="remarks" [(ngModel)]="remarks" placeholder="Optional except for rejection"></textarea>
+        </label>
+        <div class="actions">
+          @if (canSubmit(request)) {
+            <button type="button" (click)="run('submit')"><svg lucideSend size="16"></svg> Submit</button>
+          }
+          @if (canReview(request)) {
+            <button type="button" (click)="run('approve')"><svg lucideCheck size="16"></svg> Approve</button>
+            <button type="button" class="danger" (click)="run('reject')"><svg lucideX size="16"></svg> Reject</button>
+          }
+          @if (canOrder(request)) {
+            <button type="button" (click)="run('order')"><svg lucidePackageCheck size="16"></svg> Mark ordered</button>
+          }
+          @if (canComplete(request)) {
+            <button type="button" (click)="run('complete')"><svg lucideCheck size="16"></svg> Complete</button>
+          }
+        </div>
+      </div>
+    } @else {
+      <p class="notice">No actions available for your role at this status.</p>
+    }
+  </section>
+
+  <section class="section">
+    <h2>Timeline</h2>
+    @if (request.approvalLogs.length) {
+      <ol class="timeline">
+        @for (log of request.approvalLogs; track log.createdAt) {
+          <li>
+            <strong>{{ log.fromStatus }} to {{ log.toStatus }}</strong>
+            <p class="muted">{{ log.actor }} - {{ log.createdAt | date: 'medium' }}</p>
+            @if (log.remarks) {
+              <p>{{ log.remarks }}</p>
+            }
+          </li>
+        }
+      </ol>
+    } @else {
+      <p class="notice">No workflow actions recorded yet.</p>
+    }
+  </section>
+} @else {
+  <p class="notice">Loading request...</p>
+}

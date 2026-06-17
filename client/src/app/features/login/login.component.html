@@ -1,0 +1,29 @@
+<section class="hero">
+  <p class="eyebrow">Portfolio demo</p>
+  <h1>Procurement requests without the enterprise bloat.</h1>
+  <p class="muted">Sign in as one of the seeded roles to walk a request through approval and completion.</p>
+</section>
+
+<section class="split section">
+  <form class="form" (ngSubmit)="login()">
+    <label>
+      Email
+      <input name="email" [(ngModel)]="email" autocomplete="email">
+    </label>
+    <label>
+      Password
+      <input name="password" [(ngModel)]="password" type="password" autocomplete="current-password">
+    </label>
+    <button type="submit" [disabled]="isSubmitting">Sign in</button>
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+  </form>
+
+  <div>
+    <h2>Demo Accounts</h2>
+    <p class="muted">Employee: employee&#64;demo.com / employee</p>
+    <p class="muted">Manager: manager&#64;demo.com / manager</p>
+    <p class="muted">Finance: finance&#64;demo.com / finance</p>
+  </div>
+</section>

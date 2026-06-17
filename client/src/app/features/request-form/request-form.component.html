@@ -1,0 +1,52 @@
+<section class="hero">
+  <p class="eyebrow">Employee</p>
+  <h1>Create a purchase request.</h1>
+  <p class="muted">Keep it simple: vendor, line items, submit when ready.</p>
+</section>
+
+<form class="form section" (ngSubmit)="create()">
+  <label>
+    Vendor
+    <select name="vendorId" [(ngModel)]="vendorId" required>
+      @for (vendor of vendors(); track vendor.id) {
+        <option [value]="vendor.id">{{ vendor.name }}</option>
+      }
+    </select>
+  </label>
+
+  <div class="stack">
+    @for (item of items(); track $index) {
+      <div class="item-row">
+        <label>
+          Description
+          <input name="description-{{ $index }}" [(ngModel)]="item.description" required>
+        </label>
+        <label>
+          Qty
+          <input name="quantity-{{ $index }}" [(ngModel)]="item.quantity" type="number" min="1" required>
+        </label>
+        <label>
+          Unit cost
+          <input name="unitCost-{{ $index }}" [(ngModel)]="item.unitCost" type="number" min="0" step="0.01" required>
+        </label>
+        <label>
+          Category
+          <input name="category-{{ $index }}" [(ngModel)]="item.category" required>
+        </label>
+        <button type="button" class="secondary" (click)="removeItem($index)" [disabled]="items().length === 1">
+          <svg lucideTrash2 size="16"></svg> Remove
+        </button>
+      </div>
+    }
+  </div>
+
+  <div class="actions">
+    <button type="button" class="secondary" (click)="addItem()"><svg lucidePlus size="16"></svg> Add item</button>
+    <button type="submit" [disabled]="isSubmitting">Create draft</button>
+    <span class="muted">Estimated total: {{ total() | currency }}</span>
+  </div>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+</form>

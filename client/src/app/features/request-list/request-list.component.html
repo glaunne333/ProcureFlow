@@ -1,0 +1,68 @@
+<section class="hero">
+  <p class="eyebrow">{{ user()?.role }}</p>
+  <h1>
+    @if (user()?.role === 'Manager') {
+      Review submitted requests.
+    } @else if (user()?.role === 'Finance') {
+      Move approved requests forward.
+    } @else {
+      Track your purchase requests.
+    }
+  </h1>
+  <p class="muted">Signed in as {{ user()?.email }}.</p>
+</section>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+<section class="section">
+  <div class="metrics">
+    @for (count of summary()?.statusCounts || []; track count.status) {
+      <div class="metric">
+        <strong>{{ count.count }}</strong>
+        <span class="muted">{{ count.status }}</span>
+      </div>
+    } @empty {
+      <p class="muted">No requests yet.</p>
+    }
+  </div>
+</section>
+
+<section class="section">
+  <div class="actions">
+    <h2>Requests</h2>
+    @if (user()?.role === 'Employee') {
+      <a class="button" routerLink="/requests/new"><svg lucidePlus size="16"></svg> New request</a>
+    }
+  </div>
+
+  @if (requests().length) {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Request</th>
+            <th>Vendor</th>
+            <th>Requester</th>
+            <th>Status</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (request of requests(); track request.id) {
+            <tr>
+              <td><a [routerLink]="['/requests', request.id]">{{ request.requestNo }}</a></td>
+              <td>{{ request.vendor }}</td>
+              <td>{{ request.requestedBy || '-' }}</td>
+              <td><span class="status">{{ request.status }}</span></td>
+              <td>{{ request.estimatedTotal | currency }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <p class="notice">No requests to show yet.</p>
+  }
+</section>
