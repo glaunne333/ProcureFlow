@@ -5,10 +5,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 60px;
-  padding: 0 24px;
+  min-height: 64px;
+  padding: 0 28px;
   border-bottom: 1px solid var(--line);
-  background: rgba(17, 19, 21, 0.94);
+  background: rgba(14, 16, 18, 0.96);
   backdrop-filter: blur(12px);
 }
 
@@ -19,13 +19,14 @@
   color: var(--text);
   font-size: 18px;
   font-weight: 700;
+  line-height: 1;
   text-decoration: none;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 10px;
   color: var(--muted);
 }
 
@@ -33,12 +34,16 @@
 .nav button {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  border: 0;
+  min-height: 38px;
+  gap: 7px;
+  border: 1px solid transparent;
+  border-radius: 6px;
   background: transparent;
   color: inherit;
   cursor: pointer;
   font: inherit;
+  font-weight: 650;
+  padding: 0 10px;
   text-decoration: none;
 }
 
@@ -48,13 +53,15 @@ svg {
 
 .nav a:hover,
 .nav button:hover {
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--text);
 }
 
 .page {
-  width: min(1080px, calc(100vw - 32px));
+  width: min(1120px, calc(100vw - 32px));
   margin: 0 auto;
-  padding: 40px 0 80px;
+  padding: 34px 0 80px;
 }
 
 @media (max-width: 720px) {

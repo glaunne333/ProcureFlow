@@ -1,10 +1,10 @@
-<section class="hero">
-  <p class="eyebrow">Employee</p>
+<section class="hero hero-framed">
+  <p class="eyebrow"><span class="role-badge role-employee">Employee</span></p>
   <h1>Create a purchase request.</h1>
   <p class="muted">Keep it simple: vendor, line items, submit when ready.</p>
 </section>
 
-<form class="form section" (ngSubmit)="create()">
+<form class="form section section-band" (ngSubmit)="create()">
   <label>
     Vendor
     <select name="vendorId" [(ngModel)]="vendorId" required>

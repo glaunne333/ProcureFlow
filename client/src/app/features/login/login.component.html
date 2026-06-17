@@ -1,14 +1,32 @@
-<section class="hero">
+<section class="hero hero-framed">
   <p class="eyebrow">Portfolio demo</p>
   <h1>Procurement requests without the enterprise bloat.</h1>
   <p class="muted">Choose a role and walk mock procurement data through approval, ordering, and completion.</p>
 </section>
 
-<section class="split section">
-  <div class="form">
-    <button type="button" (click)="loginAs('Employee')" [disabled]="isSubmitting">Continue as Employee</button>
-    <button type="button" (click)="loginAs('Manager')" [disabled]="isSubmitting">Continue as Manager</button>
-    <button type="button" (click)="loginAs('Finance')" [disabled]="isSubmitting">Continue as Finance</button>
+<section class="split section section-band">
+  <div class="role-picker">
+    <button type="button" class="role-option" (click)="loginAs('Employee')" [disabled]="isSubmitting">
+      <span>
+        <strong>Continue as Employee</strong>
+        <small>Create and submit purchase requests</small>
+      </span>
+      <span class="role-badge role-employee">Employee</span>
+    </button>
+    <button type="button" class="role-option" (click)="loginAs('Manager')" [disabled]="isSubmitting">
+      <span>
+        <strong>Continue as Manager</strong>
+        <small>Approve or reject submitted requests</small>
+      </span>
+      <span class="role-badge role-manager">Manager</span>
+    </button>
+    <button type="button" class="role-option" (click)="loginAs('Finance')" [disabled]="isSubmitting">
+      <span>
+        <strong>Continue as Finance</strong>
+        <small>Order, complete, or cancel approved requests</small>
+      </span>
+      <span class="role-badge role-finance">Finance</span>
+    </button>
     @if (error) {
       <p class="error">{{ error }}</p>
     }

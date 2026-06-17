@@ -6,7 +6,13 @@
       @if (currentUser.role === 'Employee') {
         <a routerLink="/requests/new"><svg lucidePlus size="16"></svg> New Request</a>
       }
-      <span>{{ currentUser.role }}</span>
+      <span
+        class="role-badge"
+        [class.role-employee]="currentUser.role === 'Employee'"
+        [class.role-manager]="currentUser.role === 'Manager'"
+        [class.role-finance]="currentUser.role === 'Finance'">
+        {{ currentUser.role }}
+      </span>
       <button type="button" (click)="logout()"><svg lucideLogOut size="16"></svg> Sign out</button>
     </nav>
   }

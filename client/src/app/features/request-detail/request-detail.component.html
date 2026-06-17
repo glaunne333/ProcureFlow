@@ -1,6 +1,6 @@
 @if (request(); as request) {
-  <section class="hero">
-    <p class="eyebrow">{{ request.status }}</p>
+  <section class="hero hero-framed">
+    <p class="eyebrow"><span class="status status-{{ request.status.toLowerCase() }}">{{ request.status }}</span></p>
     <h1>{{ request.requestNo }}</h1>
     <p class="muted">{{ request.vendor }} requested by {{ request.requestedBy }}.</p>
   </section>
@@ -22,7 +22,7 @@
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section-band">
     <h2>Items</h2>
     <div class="table-wrap">
       <table>
@@ -50,7 +50,7 @@
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section-band">
     <h2>Actions</h2>
     @if (canSubmit(request) || canReview(request) || canOrder(request) || canComplete(request) || canCancel(request)) {
       <div class="form">
@@ -82,13 +82,17 @@
     }
   </section>
 
-  <section class="section">
+  <section class="section section-band">
     <h2>Timeline</h2>
     @if (request.approvalLogs.length) {
       <ol class="timeline">
         @for (log of request.approvalLogs; track log.createdAt) {
           <li>
-            <strong>{{ log.fromStatus }} to {{ log.toStatus }}</strong>
+            <strong>
+              <span class="status status-{{ log.fromStatus.toLowerCase() }}">{{ log.fromStatus }}</span>
+              <span class="timeline-arrow">to</span>
+              <span class="status status-{{ log.toStatus.toLowerCase() }}">{{ log.toStatus }}</span>
+            </strong>
             <p class="muted">{{ log.actor }} - {{ log.createdAt | date: 'medium' }}</p>
             @if (log.remarks) {
               <p>{{ log.remarks }}</p>

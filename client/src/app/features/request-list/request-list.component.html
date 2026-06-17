@@ -1,5 +1,15 @@
-<section class="hero">
-  <p class="eyebrow">{{ user()?.role }}</p>
+<section class="hero hero-framed">
+  @if (user(); as currentUser) {
+    <p class="eyebrow">
+      <span
+        class="role-badge"
+        [class.role-employee]="currentUser.role === 'Employee'"
+        [class.role-manager]="currentUser.role === 'Manager'"
+        [class.role-finance]="currentUser.role === 'Finance'">
+        {{ currentUser.role }}
+      </span>
+    </p>
+  }
   <h1>
     @if (user()?.role === 'Manager') {
       Review submitted requests.
@@ -21,7 +31,7 @@
     @for (count of summary()?.statusCounts || []; track count.status) {
       <div class="metric">
         <strong>{{ count.count }}</strong>
-        <span class="muted">{{ count.status }}</span>
+        <span class="status status-{{ count.status.toLowerCase() }}">{{ count.status }}</span>
       </div>
     } @empty {
       <p class="muted">No requests yet.</p>
@@ -30,7 +40,7 @@
 </section>
 
 @if (actionQueue().length) {
-  <section class="section">
+  <section class="section section-band">
     <div class="actions">
       <h2>Action Queue</h2>
     </div>
@@ -50,7 +60,7 @@
             <tr>
               <td><a [routerLink]="['/requests', request.id]">{{ request.requestNo }}</a></td>
               <td>{{ request.vendor }}</td>
-              <td><span class="status">{{ request.status }}</span></td>
+              <td><span class="status status-{{ request.status.toLowerCase() }}">{{ request.status }}</span></td>
               <td>{{ request.estimatedTotal | currency: 'PHP' : 'symbol' : '1.2-2' }}</td>
               <td><a class="button" [routerLink]="['/requests', request.id]">{{ actionLabel(request) }}</a></td>
             </tr>
@@ -61,7 +71,7 @@
   </section>
 }
 
-<section class="section">
+<section class="section section-band">
   <div class="actions">
     <h2>Requests</h2>
     @if (user()?.role === 'Employee') {
@@ -87,7 +97,7 @@
               <td><a [routerLink]="['/requests', request.id]">{{ request.requestNo }}</a></td>
               <td>{{ request.vendor }}</td>
               <td>{{ request.requestedBy || '-' }}</td>
-              <td><span class="status">{{ request.status }}</span></td>
+              <td><span class="status status-{{ request.status.toLowerCase() }}">{{ request.status }}</span></td>
               <td>{{ request.estimatedTotal | currency: 'PHP' : 'symbol' : '1.2-2' }}</td>
             </tr>
           }
