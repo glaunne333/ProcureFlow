@@ -1,3 +1,4 @@
 window.procureFlowConfig = {
-  apiBaseUrl: 'http://localhost:5166'
+  apiBaseUrl: '',
+  useMockApi: true
 };

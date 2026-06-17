@@ -1,29 +1,22 @@
 <section class="hero">
   <p class="eyebrow">Portfolio demo</p>
   <h1>Procurement requests without the enterprise bloat.</h1>
-  <p class="muted">Sign in as one of the seeded roles to walk a request through approval and completion.</p>
+  <p class="muted">Choose a role and walk mock procurement data through approval, ordering, and completion.</p>
 </section>
 
 <section class="split section">
-  <form class="form" (ngSubmit)="login()">
-    <label>
-      Email
-      <input name="email" [(ngModel)]="email" autocomplete="email">
-    </label>
-    <label>
-      Password
-      <input name="password" [(ngModel)]="password" type="password" autocomplete="current-password">
-    </label>
-    <button type="submit" [disabled]="isSubmitting">Sign in</button>
+  <div class="form">
+    <button type="button" (click)="loginAs('Employee')" [disabled]="isSubmitting">Continue as Employee</button>
+    <button type="button" (click)="loginAs('Manager')" [disabled]="isSubmitting">Continue as Manager</button>
+    <button type="button" (click)="loginAs('Finance')" [disabled]="isSubmitting">Continue as Finance</button>
     @if (error) {
       <p class="error">{{ error }}</p>
     }
-  </form>
+  </div>
 
   <div>
-    <h2>Demo Accounts</h2>
-    <p class="muted">Employee: employee&#64;demo.com / employee</p>
-    <p class="muted">Manager: manager&#64;demo.com / manager</p>
-    <p class="muted">Finance: finance&#64;demo.com / finance</p>
+    <h2>Backend-ready demo</h2>
+    <p class="muted">The live Vercel demo runs entirely in the browser with seeded mock data, so it does not need paid backend hosting.</p>
+    <p class="notice">The repository still includes a .NET 10 API, EF Core migrations, Docker files, and Supabase seed scripts for a backend-ready version.</p>
   </div>
 </section>
