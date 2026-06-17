@@ -4,6 +4,14 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { DashboardSummary, LoginResponse, Lookup, RequestDetail, RequestListItem } from './models';
 
+declare global {
+  interface Window {
+    procureFlowConfig?: {
+      apiBaseUrl?: string;
+    };
+  }
+}
+
 export interface CreateRequestPayload {
   vendorId: string;
   items: {
@@ -17,7 +25,7 @@ export interface CreateRequestPayload {
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = environment.apiBaseUrl;
+  private readonly baseUrl = window.procureFlowConfig?.apiBaseUrl || environment.apiBaseUrl;
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/api/auth/login`, { email, password });

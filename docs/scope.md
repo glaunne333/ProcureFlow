@@ -9,6 +9,7 @@
 - Manager approval filter/actions
 - Summary counts and recent activity
 - Vendors and categories as seeded lookup data
+- Dark Angular + Tailwind UI with simple top navigation
 
 ## Skip
 

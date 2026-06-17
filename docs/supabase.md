@@ -69,3 +69,7 @@ dotnet ef migrations script --idempotent --project server/src/ProcureFlow.Infras
 ## Keep It Small
 
 Do not add stored procedures, triggers, database functions, custom schemas, or complex permissions for the MVP. Business rules should live in the .NET application layer.
+
+## Demo Seed Data
+
+If the local machine cannot connect to Supabase Postgres directly, run `server/database/seed-demo-data.sql` in the Supabase SQL Editor after applying the migration script.

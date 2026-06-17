@@ -3,6 +3,8 @@ bin/
 obj/
 dist/
 out/
+.publish-check/
+.build-check/
 
 # Node
 node_modules/
