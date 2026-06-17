@@ -43,7 +43,7 @@
   <div class="actions">
     <button type="button" class="secondary" (click)="addItem()"><svg lucidePlus size="16"></svg> Add item</button>
     <button type="submit" [disabled]="isSubmitting">Create draft</button>
-    <span class="muted">Estimated total: {{ total() | currency }}</span>
+    <span class="muted">Estimated total: {{ total() | currency: 'PHP' : 'symbol' : '1.2-2' }}</span>
   </div>
 
   @if (error()) {

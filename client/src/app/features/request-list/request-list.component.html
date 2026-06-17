@@ -29,6 +29,38 @@
   </div>
 </section>
 
+@if (actionQueue().length) {
+  <section class="section">
+    <div class="actions">
+      <h2>Action Queue</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Request</th>
+            <th>Vendor</th>
+            <th>Status</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (request of actionQueue(); track request.id) {
+            <tr>
+              <td><a [routerLink]="['/requests', request.id]">{{ request.requestNo }}</a></td>
+              <td>{{ request.vendor }}</td>
+              <td><span class="status">{{ request.status }}</span></td>
+              <td>{{ request.estimatedTotal | currency: 'PHP' : 'symbol' : '1.2-2' }}</td>
+              <td><a class="button" [routerLink]="['/requests', request.id]">{{ actionLabel(request) }}</a></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}
+
 <section class="section">
   <div class="actions">
     <h2>Requests</h2>
@@ -56,7 +88,7 @@
               <td>{{ request.vendor }}</td>
               <td>{{ request.requestedBy || '-' }}</td>
               <td><span class="status">{{ request.status }}</span></td>
-              <td>{{ request.estimatedTotal | currency }}</td>
+              <td>{{ request.estimatedTotal | currency: 'PHP' : 'symbol' : '1.2-2' }}</td>
             </tr>
           }
         </tbody>

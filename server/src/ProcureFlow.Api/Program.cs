@@ -388,6 +388,27 @@ api.MapPost("/requests/{id:guid}/complete", async (
         request => request.Complete(EndpointHelpers.GetCurrentUser(principal).Id, dto.Remarks));
 });
 
+api.MapPost("/requests/{id:guid}/cancel", async (
+    Guid id,
+    ActionDto dto,
+    ClaimsPrincipal principal,
+    ProcureFlowDbContext dbContext,
+    CancellationToken cancellationToken) =>
+{
+    return await EndpointHelpers.UpdateRequestAsync(
+        id,
+        principal,
+        dbContext,
+        cancellationToken,
+        [UserRole.Employee, UserRole.Finance],
+        request =>
+        {
+            var currentUser = EndpointHelpers.GetCurrentUser(principal);
+            return currentUser.Role == UserRole.Finance || request.RequestedById == currentUser.Id;
+        },
+        request => request.Cancel(EndpointHelpers.GetCurrentUser(principal).Id, dto.Remarks));
+});
+
 api.MapGet("/dashboard/summary", async (
     ClaimsPrincipal principal,
     ProcureFlowDbContext dbContext,

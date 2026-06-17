@@ -258,6 +258,14 @@ export class ApiService {
       return 'Completed';
     }
 
+    if (user.role === 'Employee' && status === 'Draft' && action === 'cancel') {
+      return 'Cancelled';
+    }
+
+    if (user.role === 'Finance' && (status === 'Approved' || status === 'Ordered') && action === 'cancel') {
+      return 'Cancelled';
+    }
+
     throw { error: { message: 'That action is not available for this role or status.' } };
   }
 }
@@ -270,7 +278,7 @@ interface StoredRequest extends RequestDetail {
 
 const mockRequestsKey = 'procureflow_mock_requests';
 const mockRequestsVersionKey = 'procureflow_mock_requests_version';
-const mockRequestsVersion = '3';
+const mockRequestsVersion = '4';
 
 const mockUsers: (CurrentUser & { password: string })[] = [
   {
@@ -315,12 +323,12 @@ const seedRequests: StoredRequest[] = [
     vendorId: 'cccccccc-cccc-cccc-cccc-cccccccccccc',
     vendor: 'Contoso IT Services',
     status: 'Draft',
-    estimatedTotal: 1380,
+    estimatedTotal: 77500,
     createdAt: daysAgo(1),
     submittedAt: null,
     items: [
-      makeItem('Laptop', 1, 1200, 'Hardware'),
-      makeItem('Docking station', 1, 180, 'Hardware')
+      makeItem('Laptop', 1, 68000, 'Hardware'),
+      makeItem('Docking station', 1, 9500, 'Hardware')
     ],
     approvalLogs: []
   },
@@ -333,12 +341,12 @@ const seedRequests: StoredRequest[] = [
     vendorId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
     vendor: 'Acme Office Supplies',
     status: 'Submitted',
-    estimatedTotal: 820,
+    estimatedTotal: 29880,
     createdAt: daysAgo(3),
     submittedAt: daysAgo(2),
     items: [
-      makeItem('Ergonomic chairs', 4, 175, 'Furniture'),
-      makeItem('Whiteboard markers', 6, 20, 'Office Supplies')
+      makeItem('Ergonomic chairs', 4, 7200, 'Furniture'),
+      makeItem('Whiteboard markers', 6, 180, 'Office Supplies')
     ],
     approvalLogs: [
       makeLog('Employee Demo', 'Draft', 'Submitted', 'Replacing worn office seating.', daysAgo(2))
@@ -353,12 +361,12 @@ const seedRequests: StoredRequest[] = [
     vendorId: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
     vendor: 'Northwind Hardware',
     status: 'Approved',
-    estimatedTotal: 2260,
+    estimatedTotal: 129500,
     createdAt: daysAgo(5),
     submittedAt: daysAgo(4),
     items: [
-      makeItem('Barcode scanners', 3, 420, 'Hardware'),
-      makeItem('Label printer', 1, 1000, 'Hardware')
+      makeItem('Barcode scanners', 3, 24500, 'Hardware'),
+      makeItem('Label printer', 1, 56000, 'Hardware')
     ],
     approvalLogs: [
       makeLog('Employee Demo', 'Draft', 'Submitted', 'Needed for receiving desk rollout.', daysAgo(4)),
@@ -374,16 +382,57 @@ const seedRequests: StoredRequest[] = [
     vendorId: 'cccccccc-cccc-cccc-cccc-cccccccccccc',
     vendor: 'Contoso IT Services',
     status: 'Ordered',
-    estimatedTotal: 950,
+    estimatedTotal: 48000,
     createdAt: daysAgo(8),
     submittedAt: daysAgo(7),
     items: [
-      makeItem('Cloud backup setup', 1, 950, 'Software')
+      makeItem('Cloud backup setup', 1, 48000, 'Software')
     ],
     approvalLogs: [
       makeLog('Employee Demo', 'Draft', 'Submitted', 'Covers procurement document backup.', daysAgo(7)),
       makeLog('Manager Demo', 'Submitted', 'Approved', 'Operationally necessary.', daysAgo(6)),
       makeLog('Finance Demo', 'Approved', 'Ordered', 'Purchase order issued.', daysAgo(5))
+    ] satisfies ApprovalLog[]
+  },
+  {
+    id: '12121212-1212-1212-1212-121212121212',
+    requestNo: 'PR-202606170007',
+    requestedById: 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',
+    requestedBy: 'Employee Demo',
+    departmentId: '22222222-2222-2222-2222-222222222222',
+    vendorId: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+    vendor: 'Northwind Hardware',
+    status: 'Approved',
+    estimatedTotal: 42500,
+    createdAt: daysAgo(6),
+    submittedAt: daysAgo(5),
+    items: [
+      makeItem('UPS battery backups', 5, 8500, 'Hardware')
+    ],
+    approvalLogs: [
+      makeLog('Employee Demo', 'Draft', 'Submitted', 'Keeps workstations protected during outages.', daysAgo(5)),
+      makeLog('Manager Demo', 'Submitted', 'Approved', 'Approved for continuity work.', daysAgo(4))
+    ] satisfies ApprovalLog[]
+  },
+  {
+    id: '34343434-3434-3434-3434-343434343434',
+    requestNo: 'PR-202606170008',
+    requestedById: 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',
+    requestedBy: 'Employee Demo',
+    departmentId: '22222222-2222-2222-2222-222222222222',
+    vendorId: 'cccccccc-cccc-cccc-cccc-cccccccccccc',
+    vendor: 'Contoso IT Services',
+    status: 'Ordered',
+    estimatedTotal: 62000,
+    createdAt: daysAgo(9),
+    submittedAt: daysAgo(8),
+    items: [
+      makeItem('Network cabling service', 1, 62000, 'Services')
+    ],
+    approvalLogs: [
+      makeLog('Employee Demo', 'Draft', 'Submitted', 'Needed for the operations room move.', daysAgo(8)),
+      makeLog('Manager Demo', 'Submitted', 'Approved', 'Approved for site readiness.', daysAgo(7)),
+      makeLog('Finance Demo', 'Approved', 'Ordered', 'Service order sent to vendor.', daysAgo(6))
     ] satisfies ApprovalLog[]
   },
   {
@@ -395,11 +444,11 @@ const seedRequests: StoredRequest[] = [
     vendorId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
     vendor: 'Acme Office Supplies',
     status: 'Completed',
-    estimatedTotal: 390,
+    estimatedTotal: 10800,
     createdAt: daysAgo(12),
     submittedAt: daysAgo(11),
     items: [
-      makeItem('Desk lamps', 6, 65, 'Office Supplies')
+      makeItem('Desk lamps', 6, 1800, 'Office Supplies')
     ],
     approvalLogs: [
       makeLog('Employee Demo', 'Draft', 'Submitted', 'For finance workstations.', daysAgo(11)),
@@ -417,11 +466,11 @@ const seedRequests: StoredRequest[] = [
     vendorId: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
     vendor: 'Northwind Hardware',
     status: 'Rejected',
-    estimatedTotal: 1800,
+    estimatedTotal: 96000,
     createdAt: daysAgo(15),
     submittedAt: daysAgo(14),
     items: [
-      makeItem('Standing desks', 3, 600, 'Furniture')
+      makeItem('Standing desks', 3, 32000, 'Furniture')
     ],
     approvalLogs: [
       makeLog('Employee Demo', 'Draft', 'Submitted', 'Requested for optional workspace upgrades.', daysAgo(14)),

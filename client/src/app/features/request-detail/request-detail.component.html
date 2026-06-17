@@ -12,7 +12,7 @@
   <section class="section">
     <div class="metrics">
       <div class="metric">
-        <strong>{{ request.estimatedTotal | currency }}</strong>
+        <strong>{{ request.estimatedTotal | currency: 'PHP' : 'symbol' : '1.2-2' }}</strong>
         <span class="muted">Estimated total</span>
       </div>
       <div class="metric">
@@ -41,8 +41,8 @@
               <td>{{ item.description }}</td>
               <td>{{ item.category }}</td>
               <td>{{ item.quantity }}</td>
-              <td>{{ item.unitCost | currency }}</td>
-              <td>{{ item.lineTotal | currency }}</td>
+              <td>{{ item.unitCost | currency: 'PHP' : 'symbol' : '1.2-2' }}</td>
+              <td>{{ item.lineTotal | currency: 'PHP' : 'symbol' : '1.2-2' }}</td>
             </tr>
           }
         </tbody>
@@ -52,7 +52,7 @@
 
   <section class="section">
     <h2>Actions</h2>
-    @if (canSubmit(request) || canReview(request) || canOrder(request) || canComplete(request)) {
+    @if (canSubmit(request) || canReview(request) || canOrder(request) || canComplete(request) || canCancel(request)) {
       <div class="form">
         <label>
           Remarks
@@ -71,6 +71,9 @@
           }
           @if (canComplete(request)) {
             <button type="button" (click)="run('complete')"><svg lucideCheck size="16"></svg> Complete</button>
+          }
+          @if (canCancel(request)) {
+            <button type="button" class="secondary" (click)="run('cancel')"><svg lucideX size="16"></svg> Cancel</button>
           }
         </div>
       </div>

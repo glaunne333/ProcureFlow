@@ -79,4 +79,10 @@ export class RequestDetailComponent implements OnInit {
   canComplete(request: RequestDetail): boolean {
     return this.user()?.role === 'Finance' && request.status === 'Ordered';
   }
+
+  canCancel(request: RequestDetail): boolean {
+    const role = this.user()?.role;
+    return (role === 'Employee' && request.status === 'Draft')
+      || (role === 'Finance' && (request.status === 'Approved' || request.status === 'Ordered'));
+  }
 }

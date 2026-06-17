@@ -39,4 +39,30 @@ export class RequestListComponent implements OnInit {
       error: error => this.error.set(error.error?.detail || 'Could not load requests.')
     });
   }
+
+  actionQueue(): RequestListItem[] {
+    return this.requests().filter(request => this.actionLabel(request));
+  }
+
+  actionLabel(request: RequestListItem): string {
+    const role = this.user()?.role;
+
+    if (role === 'Employee' && request.status === 'Draft') {
+      return 'Submit draft';
+    }
+
+    if (role === 'Manager' && request.status === 'Submitted') {
+      return 'Review';
+    }
+
+    if (role === 'Finance' && request.status === 'Approved') {
+      return 'Issue order';
+    }
+
+    if (role === 'Finance' && request.status === 'Ordered') {
+      return 'Receive order';
+    }
+
+    return '';
+  }
 }
