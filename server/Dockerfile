@@ -15,9 +15,8 @@ RUN dotnet publish src/ProcureFlow.Api/ProcureFlow.Api.csproj -c Release -o /app
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 
 WORKDIR /app
-EXPOSE 8080
-ENV ASPNETCORE_URLS=http://+:8080
+EXPOSE 7860
 
 COPY --from=build /app/publish .
 
-ENTRYPOINT ["dotnet", "ProcureFlow.Api.dll"]
+ENTRYPOINT ["sh", "-c", "ASPNETCORE_URLS=http://+:${PORT:-7860} dotnet ProcureFlow.Api.dll"]

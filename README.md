@@ -53,15 +53,15 @@ docs/
 ## Deployment Targets
 
 - Frontend: Vercel
-- Backend: Render
+- Backend: Docker host such as Render or Hugging Face Spaces
 - Database: Supabase PostgreSQL
 - Repository: GitHub
 
 ## Deployment Notes
 
 1. Run `server/database/seed-demo-data.sql` in Supabase SQL Editor after migrations.
-2. Deploy the backend to Render first.
-3. Set Render environment variables:
+2. Deploy the backend first.
+3. Set backend environment variables:
 
 ```text
 ConnectionStrings__DefaultConnection=Host=aws-1-ap-northeast-2.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.lvjnsomiatgetxauyqhu;Password=...;SSL Mode=Require;Trust Server Certificate=true
@@ -72,5 +72,7 @@ Cors__AllowedOrigins=https://your-vercel-app.vercel.app
 ASPNETCORE_ENVIRONMENT=Production
 ```
 
-4. After Render gives you the API URL, update `client/public/config.js`.
+4. After the backend gives you the API URL, update `client/public/config.js`.
 5. Deploy the Angular frontend to Vercel with `client` as the project root.
+
+If Render cannot be used, deploy the root `Dockerfile` to another Docker-capable host. The container listens on the `PORT` environment variable, or `7860` by default.
